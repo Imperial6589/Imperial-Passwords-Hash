@@ -32,6 +32,18 @@ def check_password(hash_value, password_dict):
 # Streamlit app
 def main():
     st.title("Password Hashing App by:Mohd Altamish")
+    st.markdown(
+        """
+        <style>
+        body {
+            background-image: url('https://www.pexels.com/photo/view-of-street-from-a-glass-window-531880/');  /* Replace 'background.jpg' with your image file's name */
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
 
     passwords = generate_passwords()
