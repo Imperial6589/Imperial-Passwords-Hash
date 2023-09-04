@@ -1,10 +1,10 @@
 import streamlit as st
 import hashlib
 
-# Function to generate passwords of varying lengths from 4 to 10 digits
+# Function to generate passwords of varying lengths from 4 to 6 digits
 def generate_passwords():
     passwords = []
-    for length in range(4, 11):
+    for length in range(4, 7):
         for i in range(10 ** (length - 1), 10 ** length):
             password = str(i)
             passwords.append(password)
@@ -29,7 +29,7 @@ def check_password(hash_value, password_dict):
     else:
         return None
 
-# Main Streamlit app
+# Streamlit app
 def main():
     st.title("Password Hashing App")
 
@@ -39,16 +39,16 @@ def main():
     choice = st.selectbox("Choose an option:", ["Generate hash for a password", "Check a hash against the dictionary"])
 
     if choice == "Generate hash for a password":
-        password = st.text_input("Enter a password (4 to 10 digits):")
+        password = st.text_input("Enter a password (4 to 6 digits): ")
         if password:
-            if len(password) < 4 or len(password) > 10:
-                st.error("Invalid password length. Please enter a password between 4 and 10 digits.")
+            if len(password) < 4 or len(password) > 6:
+                st.error("Invalid password length. Please enter a password between 4 and 6 digits.")
             else:
                 hash_value = password_to_hash(password)
                 st.success(f"Hash value for {password}: {hash_value}")
 
     elif choice == "Check a hash against the dictionary":
-        user_hash = st.text_input("Enter a hash to check:")
+        user_hash = st.text_input("Enter a hash to check: ")
         if user_hash:
             result = check_password(user_hash, password_dict)
             if result:
@@ -58,4 +58,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-            
