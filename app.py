@@ -45,10 +45,10 @@ def main():
     passwords = generate_passwords()
     password_dict = create_password_dictionary(passwords)
 
-    choice = st.sidebar.radio("Choose an option:", ["Generate hash for a password", "Check a hash against the dictionary"])
+    choice = st.sidebar.radio("Choose an option:", ["Convert password to hash", "Check hash against dictionary"])
 
-    if choice == "Generate hash for a password":
-        st.header("Generate Hash")
+    if choice == "Convert password to hash":
+        st.header("Convert Password to Hash")
         password = st.text_input("Enter a password (4 to 10 characters):")
         if password:
             if len(password) < 4 or len(password) > 10:
@@ -57,8 +57,8 @@ def main():
                 hash_value = password_to_hash(password)
                 st.success(f"Hash value for the password: {hash_value}")
 
-    elif choice == "Check a hash against the dictionary":
-        st.header("Check Hash")
+    elif choice == "Check hash against dictionary":
+        st.header("Check Hash Against Dictionary")
         user_hash = st.text_input("Enter a hash to check:")
         if user_hash:
             result = check_password(user_hash, password_dict)
@@ -69,4 +69,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-                   
+    
