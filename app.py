@@ -31,12 +31,13 @@ def check_password(hash_value, password_dict):
 
 # Streamlit app
 def main():
-    st.title("Password Hashing App")
+    st.title("Password Hashing App by:Mohd Altamish")
+
 
     passwords = generate_passwords()
     password_dict = create_password_dictionary(passwords)
 
-    choice = st.selectbox("Choose an option:", ["Generate hash for a password", "Check a hash against the dictionary"])
+    choice = st.selectbox("Choose an option:", ["Generate hash for a password", "Enter the hash to know your password"])
 
     if choice == "Generate hash for a password":
         password = st.text_input("Enter a password (4 to 6 digits): ")
@@ -47,7 +48,8 @@ def main():
                 hash_value = password_to_hash(password)
                 st.success(f"Hash value for {password}: {hash_value}")
 
-    elif choice == "Check a hash against the dictionary":
+    elif choice == "Enter the hash to know your password"])
+    ":
         user_hash = st.text_input("Enter a hash to check: ")
         if user_hash:
             result = check_password(user_hash, password_dict)
