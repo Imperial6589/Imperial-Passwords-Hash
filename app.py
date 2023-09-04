@@ -1,55 +1,61 @@
 import streamlit as st
-import bcrypt
+import hashlib
 
-# Function to hash a password
-def hash_password(password):
-    salt = bcrypt.gensalt()
-    hashed_password = bcrypt.hashpw(password.encode(), salt)
-    return hashed_password
-
-# Function to check if a password matches its hash
-def check_password(input_password, hashed_password):
-    return bcrypt.checkpw(input_password.encode(), hashed_password)
+# Function to generate passwords of varying lengths from 4 to 10 digits
+def generate_passwords():
+    passwords = []
+    for length in range(4, 11):
+        for i in range(10 ** (length - 1), 10 ** length):
+            password = str(i)
+            passwords.append(password)
+    return passwords
 
 # Function to create a dictionary with hash as key and password as value
 def create_password_dictionary(passwords):
     password_dict = {}
     for password in passwords:
-        hashed_password = hash_password(password)
-        password_dict[hashed_password.decode()] = password  # Convert bytes to string
+        hash_value = hashlib.sha256(password.encode()).hexdigest()
+        password_dict[hash_value] = password
     return password_dict
+
+# Function to convert a password to hash
+def password_to_hash(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+# Function to check if a user-provided hash exists in the dictionary
+def check_password(hash_value, password_dict):
+    if hash_value in password_dict:
+        return password_dict[hash_value]
+    else:
+        return None
 
 # Main Streamlit app
 def main():
     st.title("Password Hashing App")
-    st.sidebar.header("Options")
 
-    choice = st.sidebar.radio("Choose an option:", ["Hash a password", "Check a password"])
+    passwords = generate_passwords()
+    password_dict = create_password_dictionary(passwords)
 
-    if choice == "Hash a password":
-        st.header("Hash a Password")
-        password = st.text_input("Enter a password:")
+    choice = st.selectbox("Choose an option:", ["Generate hash for a password", "Check a hash against the dictionary"])
+
+    if choice == "Generate hash for a password":
+        password = st.text_input("Enter a password (4 to 10 digits):")
         if password:
-            hashed_password = hash_password(password)
-            st.success(f"Hashed Password: {hashed_password}")
+            if len(password) < 4 or len(password) > 10:
+                st.error("Invalid password length. Please enter a password between 4 and 10 digits.")
+            else:
+                hash_value = password_to_hash(password)
+                st.success(f"Hash value for {password}: {hash_value}")
 
-    elif choice == "Check a password":
-        st.header("Check a Password")
-        hashed_password = st.text_input("Enter a hashed password:")
-        if hashed_password:
-            st.info("Note: This functionality requires access to the original password, which is not typical in practice.")
-            input_hash = st.text_input("Enter a hash to find the password:")
-            
-            # Create a dictionary with hash as key and password as value
-            passwords = ["password1", "password2", "password3"]  # Replace with your list of passwords
-            password_dict = create_password_dictionary(passwords)
-
-            if input_hash:
-                if input_hash in password_dict:
-                    st.success(f"Password for the hash: {password_dict[input_hash]}")
-                else:
-                    st.error("Hash not found in the dictionary.")
+    elif choice == "Check a hash against the dictionary":
+        user_hash = st.text_input("Enter a hash to check:")
+        if user_hash:
+            result = check_password(user_hash, password_dict)
+            if result:
+                st.success(f"Password for hash {user_hash}: {result}")
+            else:
+                st.error("Hash not found in the dictionary.")
 
 if __name__ == "__main__":
     main()
-                                                         
+            
