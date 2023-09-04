@@ -36,7 +36,7 @@ def main():
         """
         <style>
         body {
-            background-image: url('https://www.pexels.com/photo/view-of-street-from-a-glass-window-531880/');  /* Replace 'background.jpg' with your image file's name */
+            background-image: url('https://www.pexels.com/photo/blue-and-purple-cosmic-sky-956999/');  /* Replace 'background.jpg' with your image file's name */
             background-size: cover;
             background-repeat: no-repeat;
         }
