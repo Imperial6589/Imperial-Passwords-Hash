@@ -11,6 +11,14 @@ def hash_password(password):
 def check_password(input_password, hashed_password):
     return bcrypt.checkpw(input_password.encode(), hashed_password)
 
+# Function to create a dictionary with hash as key and password as value
+def create_password_dictionary(passwords):
+    password_dict = {}
+    for password in passwords:
+        hashed_password = hash_password(password)
+        password_dict[hashed_password.decode()] = password  # Convert bytes to string
+    return password_dict
+
 # Main Streamlit app
 def main():
     st.title("Password Hashing App")
@@ -28,13 +36,20 @@ def main():
     elif choice == "Check a password":
         st.header("Check a Password")
         hashed_password = st.text_input("Enter a hashed password:")
-        input_password = st.text_input("Enter a password to check:")
-        if hashed_password and input_password:
-            if check_password(input_password, hashed_password):
-                st.success("Password Match: The input password matches the hashed password.")
-            else:
-                st.error("Password Mismatch: The input password does not match the hashed password.")
+        if hashed_password:
+            st.info("Note: This functionality requires access to the original password, which is not typical in practice.")
+            input_hash = st.text_input("Enter a hash to find the password:")
+            
+            # Create a dictionary with hash as key and password as value
+            passwords = ["password1", "password2", "password3"]  # Replace with your list of passwords
+            password_dict = create_password_dictionary(passwords)
+
+            if input_hash:
+                if input_hash in password_dict:
+                    st.success(f"Password for the hash: {password_dict[input_hash]}")
+                else:
+                    st.error("Hash not found in the dictionary.")
 
 if __name__ == "__main__":
     main()
-    
+                                                         
