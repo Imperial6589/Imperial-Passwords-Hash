@@ -53,7 +53,7 @@ def main():
         if user_hash:
             result = check_password(user_hash, password_dict)
             if result:
-                st.success(f"Password for hash {user_hash}: {result}")
+                st.success(f"Password for hash: {result}")
             else:
                 st.error("Hash not found in the dictionary.")
 
