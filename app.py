@@ -36,8 +36,8 @@ def main():
         <style>
         /* Add your custom CSS styles here */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #f7f7f7;
         }
         .stApp {
             max-width: 800px;
@@ -45,29 +45,38 @@ def main():
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
-        .st-h1 {
-            font-size: 32px;
-            margin-bottom: 20px;
+        .st-header {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #0072b8;
         }
         .st-sidebar {
-            background-color: #333;
+            background-color: #0072b8;
             color: #fff;
             padding: 20px;
             border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
         .st-selectbox {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: none;
             border-radius: 5px;
+            background-color: #f7f7f7;
+            font-size: 18px;
+            margin-bottom: 20px;
         }
         .st-text-input {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-size: 18px;
+            margin-bottom: 20px;
         }
         .st-button {
             background-color: #0072b8;
@@ -75,6 +84,7 @@ def main():
             border: none;
             border-radius: 5px;
             padding: 10px 20px;
+            font-size: 18px;
             cursor: pointer;
         }
         .st-button:hover {
@@ -82,9 +92,11 @@ def main():
         }
         .st-success {
             color: #008000;
+            font-weight: bold;
         }
         .st-error {
             color: #ff0000;
+            font-weight: bold;
         }
         </style>
         """,
@@ -102,7 +114,7 @@ def main():
 
     if choice == "Generate hash for a password":
         st.subheader("Generate Hash")
-        password = st.text_input("Enter a password (4 to 6 digits):", type="password")
+        password = st.text_input("Enter a password (4 to 6 digits):", type="password", key="generate_password")
         if password:
             if len(password) < 4 or len(password) > 6:
                 st.error("Invalid password length. Please enter a password between 4 and 6 digits.")
@@ -112,7 +124,7 @@ def main():
 
     elif choice == "Enter the hash to know your password":
         st.subheader("Check Password")
-        user_hash = st.text_input("Enter a hash to check:")
+        user_hash = st.text_input("Enter a hash to check:", key="check_password")
         if user_hash:
             result = check_password(user_hash, password_dict)
             if result:
@@ -126,4 +138,4 @@ if __name__ == "__main__":
     passwords = generate_passwords()
     password_dict = create_password_dictionary(passwords)
     main()
-                          
+    
