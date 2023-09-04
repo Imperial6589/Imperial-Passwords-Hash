@@ -31,90 +31,16 @@ def check_password(hash_value, password_dict):
 
 # Streamlit app
 def main():
-    st.markdown(
-        """
-        <style>
-        /* Add your custom CSS styles here */
-        body {
-            font-family: 'Helvetica Neue', sans-serif;
-            background-color: #f7f7f7;
-        }
-        .stApp {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-        .st-header {
-            text-align: center;
-            font-size: 36px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            color: #0072b8;
-        }
-        .st-sidebar {
-            background-color: #0072b8;
-            color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        .st-selectbox {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #f7f7f7;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-        .st-text-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-        .st-button {
-            background-color: #0072b8;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        .st-button:hover {
-            background-color: #005a9d;
-        }
-        .st-success {
-            color: #008000;
-            font-weight: bold;
-        }
-        .st-error {
-            color: #ff0000;
-            font-weight: bold;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.title("Password Hashing App by:Mohd Altamish")
 
-    st.title("Password Hashing App by Mohd Altamish")
-    st.markdown('<div class="stApp">', unsafe_allow_html=True)
 
-    st.sidebar.markdown('<div class="st-sidebar">', unsafe_allow_html=True)
-    st.sidebar.header("Menu")
+    passwords = generate_passwords()
+    password_dict = create_password_dictionary(passwords)
 
-    menu_options = ["Generate hash for a password", "Enter the hash to know your password"]
-    choice = st.sidebar.selectbox("Choose an option:", menu_options)
+    choice = st.selectbox("Choose an option:", ["Generate hash for a password", "Enter the hash to know your password"])
 
     if choice == "Generate hash for a password":
-        st.subheader("Generate Hash")
-        password = st.text_input("Enter a password (4 to 6 digits):", type="password", key="generate_password")
+        password = st.text_input("Enter a password (4 to 6 digits): ")
         if password:
             if len(password) < 4 or len(password) > 6:
                 st.error("Invalid password length. Please enter a password between 4 and 6 digits.")
@@ -123,19 +49,14 @@ def main():
                 st.success(f"Hash value for {password}: {hash_value}")
 
     elif choice == "Enter the hash to know your password":
-        st.subheader("Check Password")
-        user_hash = st.text_input("Enter a hash to check:", key="check_password")
+        user_hash = st.text_input("Enter a hash to check: ")
         if user_hash:
             result = check_password(user_hash, password_dict)
             if result:
-                st.success(f"Password for hash {user_hash}: {result}")
+                st.success(f"Password for hash: {result}")
             else:
                 st.error("Hash not found in the dictionary.")
 
-    st.markdown("</div>", unsafe_allow_html=True)
-
 if __name__ == "__main__":
-    passwords = generate_passwords()
-    password_dict = create_password_dictionary(passwords)
     main()
-    
+                    
