@@ -48,8 +48,7 @@ def main():
                 hash_value = password_to_hash(password)
                 st.success(f"Hash value for {password}: {hash_value}")
 
-    elif choice == "Enter the hash to know your password"])
-    ":
+    elif choice == "Enter the hash to know your password":
         user_hash = st.text_input("Enter a hash to check: ")
         if user_hash:
             result = check_password(user_hash, password_dict)
